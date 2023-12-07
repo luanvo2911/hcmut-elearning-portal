@@ -1,7 +1,7 @@
 import React from "react";
-import AdminService from "../../../services/AdminService";
+import AdminService from "@services/AdminService";
 import { Table, Spin } from "antd";
-import StudentData from "../../../types/StudentData";
+import StudentData from "@customTypes/StudentData";
 
 const Student = () => {
   const [studentList, setStudentList] = React.useState<
@@ -44,16 +44,6 @@ const Student = () => {
       dataIndex: "sex",
       key: "sex",
     },
-    // {
-    //   title: 'Address',
-    //   dataIndex: 'address',
-    //   key: 'address',
-    // },
-    // {
-    //   title: 'Country',
-    //   dataIndex: 'country',
-    //   key: 'country',
-    // },
     {
       title: "Department",
       dataIndex: "department_name",

@@ -1,7 +1,7 @@
 import React from "react";
-import AdminService from "../../../services/AdminService";
+import AdminService from "@services/AdminService";
 import { Table, Spin } from "antd";
-import DepartmentData from "../../../types/DepartmentData";
+import DepartmentData from "@customTypes/DepartmentData";
 
 const Department = () => {
   const [departmentList, setDepartmentList] = React.useState<DepartmentData[] | undefined>(

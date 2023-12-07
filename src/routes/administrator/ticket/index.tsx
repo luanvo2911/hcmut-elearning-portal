@@ -1,7 +1,7 @@
 import React from "react";
-import AdminService from "../../../services/AdminService";
+import AdminService from "@services/AdminService";
 import { Table, Spin } from "antd";
-import TicketData from "../../../types/TicketData";
+import TicketData from "@customTypes/TicketData";
 
 const Ticket = () => {
   const [ticketList, setTicketList] = React.useState<TicketData[] | undefined>(

@@ -1,11 +1,10 @@
 import React from "react";
-import AdminService from "../../../services/AdminService";
+import AdminService from "@services/AdminService";
 import { Table, Spin } from "antd";
-import CourseData from "../../../types/CourseData";
-import CourseDetail from "./detail";
+import CourseData from "@customTypes/CourseData";
+import CourseLecture from "./_courseID";
 
-const Course = ({ setItems, courseID = null }: { setItems: React.Dispatch<React.SetStateAction<string>>, courseID: string | null}) => {
-  console.log("In course component: ", {courseID})
+const Course = ({ setItems, coursePath }: { setItems: React.Dispatch<React.SetStateAction<string>>, coursePath: string}) => {
   const [courseList, setCourseList] = React.useState<CourseData[] | undefined>(
     undefined
   );
@@ -18,8 +17,8 @@ const Course = ({ setItems, courseID = null }: { setItems: React.Dispatch<React.
       setCourseList(data);
     });
   }, []);
-  if(courseID) {
-    return <CourseDetail courseID={courseID} />
+  if(coursePath.split('/').length > 1) {
+    return <CourseLecture coursePath={coursePath.replace('Course/', '')} setItems={setItems} />
   }
   const columns = [
     {
@@ -29,7 +28,6 @@ const Course = ({ setItems, courseID = null }: { setItems: React.Dispatch<React.
       render: (text: string) => <a href='/' onClick = {
         (e) => {
           e.preventDefault();
-          console.log('read data from course', text)
           setItems(`Course/${text}`)
         }
       } title={text}>{text}</a>

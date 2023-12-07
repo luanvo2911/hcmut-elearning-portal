@@ -1,5 +1,5 @@
-import instance from "../utils/http-common";
-import FormType from "../types/FormData";
+import instance from "@utils/http-common";
+import FormType from "@customTypes/FormData";
 
 const auth = async (data: FormType): Promise<string> => {
   const { username, password } = data;

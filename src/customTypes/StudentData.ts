@@ -16,4 +16,5 @@ export default interface StudentData {
   description: string;
   country: string;
   department_name: string;
+  date_of_enrollment: Date;
 }

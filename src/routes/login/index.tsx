@@ -1,6 +1,6 @@
 import { Button, Form, Input, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
-import FormType from "../../types/FormData";
+import FormType from "../../customTypes/FormData";
 import auth from "../../services/Authentication";
 
 const LoginRoute = () => {
@@ -13,14 +13,11 @@ const LoginRoute = () => {
       } else if (returnRoles == "Administrator") {
         navigate("/administrator");
       } else if (returnRoles == "Student") {
-        // navigate("/administrator");
         1 == 1;
       } else if (returnRoles == "Lecturer") {
-        // navigate("/administrator");
         1 == 1;
       }
     });
-    // navigate("/administrator");
   };
   return (
     <div
