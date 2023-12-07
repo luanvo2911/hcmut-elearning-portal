@@ -7,10 +7,11 @@ import Student from "./student";
 import Ticket from "./ticket";
 import Department from "./department";
 import Course from "./course";
+import { User } from "@/types/user";
 
 const { Content } = Layout;
 
-const AdminRoute = () => {
+const AdminRoute = ({user}: {user: User | undefined}) => {
   const [items, setItems] = React.useState<string>("Administrator");
   const breadcrumbTitle = (items: string) => {
     const path = items.split("/"); // Split path into array to make breadcrumb
@@ -25,17 +26,16 @@ const AdminRoute = () => {
   return (
     <Layout
       style={{
-        // padding: '20px',
         height: "100vh",
         width: "100vw",
       }}
     >
-      <NavBar setItems={setItems} />
+      <NavBar setItems={setItems} currentUser={user}  />
       <Layout style={{ padding: "0 24px 24px" }}>
         <Breadcrumb
           style={{ margin: "16px 0" }}
           items={breadcrumbTitle(items)}
-        ></Breadcrumb>
+        />
         <Content
           style={{
             padding: 24,

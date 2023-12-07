@@ -1,7 +1,7 @@
 import React from "react";
 import AdminService from "@services/AdminService";
 import { Table, Spin } from "antd";
-import AdminData from "@customTypes/AdminData";
+import { AdminData } from "@/types/db";
 
 const Admin = () => {
   const [adminList, setAdminList] = React.useState<AdminData[] | undefined>(
@@ -52,9 +52,17 @@ const Admin = () => {
   ];
   return (
     <div>
-      {
-        adminList ? <Table dataSource={adminList} columns={columns} rowKey={(d)=>{return d.user_id}} /> : <Spin  />
-      }
+      {adminList ? (
+        <Table
+          dataSource={adminList}
+          columns={columns}
+          rowKey={(d) => {
+            return d.user_id;
+          }}
+        />
+      ) : (
+        <Spin />
+      )}
     </div>
   );
 };

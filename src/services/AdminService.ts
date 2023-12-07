@@ -1,13 +1,16 @@
 import instance from "@utils/http-common";
-import AdminData from "@customTypes/AdminData";
-import LecturerData from "@customTypes/LecturerData";
-import LectureData from "@customTypes/LectureData";
-import StudentData from "@customTypes/StudentData";
-import TicketData from "@customTypes/TicketData";
-import CourseData from "@customTypes/CourseData";
-import DepartmentData from "@customTypes/DepartmentData";
-import QuestionData from "@customTypes/QuestionData";
-import DocumentData from "@/customTypes/DocumentData";
+
+import {
+  AdminData,
+  LecturerData,
+  LectureData,
+  StudentData,
+  TicketData,
+  CourseData,
+  DepartmentData,
+  QuestionData,
+  DocumentData,
+} from "@/types/db";
 
 const getAdminList = () => {
   return instance.post<AdminData[]>("/", {
@@ -41,7 +44,11 @@ const getStudentList = () => {
 
 const getTicketList = () => {
   return instance.post<TicketData[]>("/", {
-    query: "SELECT * FROM ticket",
+    query: 
+    `SELECT t.*, user_info.user_name as admin_handler FROM
+      (SELECT tic.*, user_info.user_name as author FROM ticket tic 
+      JOIN user_information user_info ON tic.user_id = user_info.user_id) t
+    JOIN user_information user_info ON t.admin_id = user_info.user_id`,
   });
 };
 
@@ -65,8 +72,7 @@ const getLectureList = (courseID: string) => {
 
 const getQuestionList = (courseID: string) => {
   return instance.post<QuestionData[]>("/", {
-    query: 
-    `SELECT * FROM  
+    query: `SELECT * FROM  
       (SELECT f.*, user_info.user_name as lecturer_name FROM
         (SELECT forum.*, user_info.user_name as student_name FROM  
           (SELECT q.*, ans.answer_id, ans.answer_content, ans.answer_date FROM answer ans 
@@ -86,8 +92,7 @@ const getDocumentList = (lectureID: string) => {
 
 const getRegisteredStudentInCourse = (courseID: string) => {
   return instance.post<StudentData[]>("/", {
-    query: 
-    `SELECT t.*, stu.student_degree, stu.student_major, stu.student_program, stu.department_id FROM
+    query: `SELECT t.*, stu.student_degree, stu.student_major, stu.student_program, stu.department_id FROM
       (SELECT user_info.*, reg.date_of_enrollment 
       FROM user_information user_info JOIN student_takes_course reg on reg.student_id = user_info.user_id
     WHERE reg.course_id = '${courseID}') t, student stu WHERE stu.user_id = t.user_id`,

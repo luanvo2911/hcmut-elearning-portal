@@ -1,7 +1,7 @@
 import React from "react";
 import AdminService from "@services/AdminService";
 import { Table, Spin } from "antd";
-import StudentData from "@customTypes/StudentData";
+import { StudentData } from "@/types/db";
 
 const Student = () => {
   const [studentList, setStudentList] = React.useState<
@@ -67,9 +67,17 @@ const Student = () => {
   ];
   return (
     <div>
-    {
-      studentList ? <Table dataSource={studentList} columns={columns} rowKey={(d)=>{return d.user_id}} /> : <Spin  />
-    }
+      {studentList ? (
+        <Table
+          dataSource={studentList}
+          columns={columns}
+          rowKey={(d) => {
+            return d.user_id;
+          }}
+        />
+      ) : (
+        <Spin />
+      )}
     </div>
   );
 };

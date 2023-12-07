@@ -1,5 +1,5 @@
 import React from "react";
-import AdminService from "@services/AdminService";
+import StudentService from "@services/StudentService";
 import { Table, Spin } from "antd";
 import { TicketData } from "@/types/db";
 
@@ -8,7 +8,7 @@ const Ticket = () => {
     undefined
   );
   React.useEffect(() => {
-    AdminService.getTicketList().then(({ data }: { data: TicketData[] }) => {
+    StudentService.getTicketList().then(({ data }: { data: TicketData[] }) => {
       data.forEach((d) => {
         const { created_at, process_at } = d;
         d.created_at = new Date(created_at).toDateString();

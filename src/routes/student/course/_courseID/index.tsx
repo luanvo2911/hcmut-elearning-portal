@@ -1,7 +1,7 @@
 // This page includes of lecture, forum and registered student list.
 
 import AdminService from "@services/AdminService";
-import { LectureData, QuestionData, StudentData } from "@/types/db";
+import { LectureData, QuestionData } from "@/types/db";
 import React from "react";
 import { Table, Typography, Tag, Spin } from "antd";
 import LectureDocument from "./document";
@@ -20,9 +20,6 @@ const CourseLecture = ({
   const [questionList, setQuestionList] = React.useState<
     QuestionData[] | undefined
   >(undefined);
-  const [registeredStudentList, setRegisteredStudentList] = React.useState<
-    StudentData[] | undefined
-  >(undefined);
   React.useEffect(() => {
     const courseID = coursePath.split("/")[0];
 
@@ -34,11 +31,6 @@ const CourseLecture = ({
     AdminService.getQuestionList(courseID).then(
       ({ data }: { data: QuestionData[] }) => {
         setQuestionList(data);
-      }
-    );
-    AdminService.getRegisteredStudentInCourse(courseID).then(
-      ({ data }: { data: StudentData[] }) => {
-        setRegisteredStudentList(data);
       }
     );
   }, [coursePath]);
@@ -166,58 +158,6 @@ const CourseLecture = ({
       },
     },
   ];
-  const columnsRegisteredStudent = [
-    {
-      title: "ID",
-      dataIndex: "user_id",
-      key: "user_id",
-    },
-    {
-      title: "Username",
-      dataIndex: "user_name",
-      key: "user_name",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "First Name",
-      dataIndex: "first_name",
-      key: "first_name",
-    },
-    {
-      title: "Last Name",
-      dataIndex: "last_name",
-      key: "last_name",
-    },
-    {
-      title: "Gender",
-      dataIndex: "sex",
-      key: "sex",
-    },
-    {
-      title: "Department",
-      dataIndex: "department_id",
-      key: "department_id",
-    },
-    {
-      title: "Degree",
-      dataIndex: "student_degree",
-      key: "student_degree",
-    },
-    {
-      title: "Major",
-      dataIndex: "student_major",
-      key: "student_major",
-    },
-    {
-      title: "Program",
-      dataIndex: "student_program",
-      key: "student_program",
-    },
-  ];
   return (
     <div>
       <Typography.Title level={2}>
@@ -233,17 +173,6 @@ const CourseLecture = ({
       </Typography.Title>
       {lectureList ? (
         <Table dataSource={questionList} columns={columnsQuestion} />
-      ) : (
-        <Spin />
-      )}
-      <Typography.Title level={2}>
-        Student enrollment of {coursePath}
-      </Typography.Title>
-      {registeredStudentList ? (
-        <Table
-          dataSource={registeredStudentList}
-          columns={columnsRegisteredStudent}
-        />
       ) : (
         <Spin />
       )}

@@ -15,7 +15,7 @@
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@routes/*": ["./src/routes/*"],
-      "@customTypes/*": ["./src/customTypes/*"],
+      "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
     },
 

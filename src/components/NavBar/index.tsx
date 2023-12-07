@@ -1,27 +1,49 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import type { MenuProps } from "antd";
+import { User } from "@/types/user";
 
 const { Sider } = Layout;
-const items: MenuProps["items"] = [
+
+const itemsAdmin: MenuProps["items"] = [
   "Ticket",
   "Student",
   "Lecturer",
   "Administrator",
   "Course",
   "Department",
-  // Below should in course
-  // "Question",
-  // "Lecture",
-  // "Document",
-  // "Quiz",
-  // "Attempt",
 ].map((key) => ({
   key,
   label: `${key}`,
 }));
 
-const NavBar = ({ setItems }: { setItems: React.Dispatch<React.SetStateAction<string>> }) => {
+const itemsStudent: MenuProps["items"] = [
+  "Ticket",
+  "Course",
+  "Department"
+].map((key) => ({
+  key,
+  label: `${key}`,
+}));
+
+const itemsLecturer: MenuProps["items"] = [
+  "Ticket",
+  "Student",
+  "Course",
+  "Department",
+].map((key) => ({
+  key,
+  label: `${key}`,
+}));
+const NavBar = ({
+  setItems,
+  currentUser,
+}: {
+  setItems: React.Dispatch<React.SetStateAction<string>>;
+  currentUser: User | undefined;
+}) => {
+  const userRoles: string | undefined = currentUser ? currentUser.account_type : "";
+  
   const [collapsed, setCollapsed] = React.useState(false);
   return (
     <Sider
@@ -32,12 +54,12 @@ const NavBar = ({ setItems }: { setItems: React.Dispatch<React.SetStateAction<st
       <div className="demo-logo-vertical" />
       <Menu
         mode="inline"
-        defaultSelectedKeys={["Administrator"]}
+        defaultSelectedKeys={[userRoles == "Administrator" ? "Administrator" : "Course"]}
         style={{
           height: "100%",
           borderRight: 0,
         }}
-        items={items}
+        items={userRoles == 'Administrator' ? itemsAdmin : userRoles == 'Lecturer' ? itemsLecturer : itemsStudent}
         onSelect={(item) => {
           setItems(item.key);
         }}

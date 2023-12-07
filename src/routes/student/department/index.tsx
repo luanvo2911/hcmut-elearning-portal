@@ -1,5 +1,5 @@
 import React from "react";
-import AdminService from "@services/AdminService";
+import StudentService from "@services/StudentService";
 import { Table, Spin } from "antd";
 import { DepartmentData } from "@/types/db";
 
@@ -8,7 +8,7 @@ const Department = () => {
     DepartmentData[] | undefined
   >(undefined);
   React.useEffect(() => {
-    AdminService.getDepartmentList().then(
+    StudentService.getDepartmentList().then(
       ({ data }: { data: DepartmentData[] }) => {
         setDepartmentList(data);
       }
