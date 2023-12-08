@@ -1,17 +1,17 @@
 import React from "react";
 import { Table, Spin } from "antd";
-import StudentService from "@/services/StudentService";
+import LecturerService from "@/services/LecturerService";
 import { QuizData } from "@/types/db";
 import LectureQuiz from "./_quizID"; 
 
 const LectureQuizList = ({
   lecturePath,
   setItems,
-  studentID
+  lecturerID
 }: {
   lecturePath: string;
   setItems: React.Dispatch<React.SetStateAction<string>>;
-  studentID: string | undefined ;
+  lecturerID: string | undefined ;
 }) => {
   let lectureID = lecturePath.split("/")[0];
   lectureID = lectureID.split(" ")[0]; 
@@ -53,7 +53,7 @@ const LectureQuizList = ({
     }
   ];
   React.useEffect(() => {
-    StudentService.getQuizList(lectureID).then(
+    LecturerService.getQuizList(lectureID).then(
       ({ data }: { data: QuizData[] }) => {
         setQuizList(data);
       }
@@ -61,7 +61,7 @@ const LectureQuizList = ({
   }, [lectureID]);
 
   if(lecturePath.split("/").length > 1){
-    return <LectureQuiz quizIDPath = {lecturePath.replace(`${lecturePath.split("/")[0]}/`, "")} studentID = {studentID}/>
+    return <LectureQuiz quizIDPath = {lecturePath.replace(`${lecturePath.split("/")[0]}/`, "")} lecturerID = {lecturerID}/>
   }
 
   return quizList ? (

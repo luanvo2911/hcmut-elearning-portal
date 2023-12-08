@@ -1,13 +1,15 @@
 import React from "react";
 import { NavBar } from "@/components";
-import { User } from "@/types/user"
+import { User } from "@/types/user";
 import { Layout, Breadcrumb, Typography } from "antd";
 import Department from "./department";
 import Ticket from "./ticket";
+import Student from "./student";
+import Course from "./course";
 
 const { Content } = Layout;
 
-const LecturerRoute = ({user}: {user: User | undefined}) => {
+const LecturerRoute = ({ user }: { user: User | undefined }) => {
   const [items, setItems] = React.useState<string>("Course");
   const breadcrumbTitle = (items: string) => {
     const path = items.split("/"); // Split path into array to make breadcrumb
@@ -53,17 +55,19 @@ const LecturerRoute = ({user}: {user: User | undefined}) => {
             overflow: "scroll",
           }}
         >
-        {
-          items == "Ticket" ? (
-            <Ticket lecturerID = {user?.user_id} />
+          {items == "Ticket" ? (
+            <Ticket lecturerID={user?.user_id} />
           ) : items == "Department" ? (
             <Department />
-          ) : <div />
-        }
+          ) : items == "Student" ? (
+            <Student />
+          ) : (
+            <Course setItems={setItems} coursePath={items} lecturerID={user?.user_id} />
+          )}
         </Content>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
 export default LecturerRoute;

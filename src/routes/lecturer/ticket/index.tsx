@@ -56,16 +56,11 @@ const Ticket = ({ lecturerID }: { lecturerID: string | undefined }) => {
       dataIndex: "author",
       key: "author",
     },
-    // {
-    //   title: "Admin",
-    //   dataIndex: "admin_handler",
-    //   key: "admin_handler",
-    // },
   ];
 
   return (
     <div>
-      <Typography.Title level={2} >Your current ticket</Typography.Title>
+      <Typography.Title level={2} >Your current tickets</Typography.Title>
       {ticketList ? (
         <Table
           dataSource={ticketList}

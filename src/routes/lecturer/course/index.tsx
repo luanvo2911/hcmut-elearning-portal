@@ -1,23 +1,23 @@
 import React from "react";
-import StudentService from "@services/StudentService";
-import { Table, Spin, Typography } from "antd";
+import LecturerService from "@services/LecturerService";
+import { Table, Spin, Typography, Tag } from "antd";
 import { CourseData } from "@/types/db";
 import CourseLecture from "./_courseID";
 
 const Course = ({
   setItems,
   coursePath,
-  studentID,
+  lecturerID,
 }: {
   setItems: React.Dispatch<React.SetStateAction<string>>;
   coursePath: string;
-  studentID: string | undefined;
+  lecturerID: string | undefined;
 }) => {
   const [courseList, setCourseList] = React.useState<CourseData[] | undefined>(
     undefined
   );
   React.useEffect(() => {
-    StudentService.getCourseList(studentID).then(
+    LecturerService.getCourseList(lecturerID).then(
       ({ data }: { data: CourseData[] }) => {
         data.forEach((d) => {
           const { modified_at } = d;
@@ -26,13 +26,13 @@ const Course = ({
         setCourseList(data);
       }
     );
-  }, [studentID]);
+  }, [lecturerID]);
   if (coursePath.split("/").length > 1) {
     return (
       <CourseLecture
         coursePath={coursePath.replace("Course/", "")}
         setItems={setItems}
-        studentID={studentID}
+        lecturerID={lecturerID}
       />
     );
   }
@@ -41,21 +41,18 @@ const Course = ({
       title: "Course ID",
       dataIndex: "course_id",
       key: "course_id",
-      render: (text: string, record: CourseData) =>
-        record.registered ? (
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              setItems(`Course/${text}`);
-            }}
-            title={text}
-          >
-            {text}{" "}
-          </a>
-        ) : (
-          <div>{text}</div>
-        ),
+      render: (text: string) => (
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            setItems(`Course/${text}`);
+          }}
+          title={text}
+        >
+          {text}{" "}
+        </a>
+      ),
     },
     {
       title: "Course Name",
@@ -68,18 +65,17 @@ const Course = ({
       key: "course_description",
     },
     {
-      title: "Lecturer ID",
-      dataIndex: "lecturer_id",
-      key: "lecturer_id",
+      title: "Available",
+      render: () => (
+        <Tag color="#87d068" >Active</Tag>
+      )
     },
     {
-      title: "",
-      dataIndex: "registered",
-      key: "registered",
-      render: (d: boolean) => <div>{d ? "In-class" : <a onClick = {(e)=>{
-        e.preventDefault() // Handle confirm box
-      }}>Register</a>}</div>,
-    },
+      title: "Role",
+      render: () => (
+        <div>In-class lecturer</div>
+      )
+    }
   ];
 
   return (

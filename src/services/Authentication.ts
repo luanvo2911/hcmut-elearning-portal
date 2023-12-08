@@ -14,7 +14,7 @@ const auth = async (data: FormType): Promise<User> => {
       const returnRoles: User = {
         user_id: undefined,
         account_type: undefined,
-        user_name: undefined
+        user_name: undefined,
       };
       if (data.length == 0) {
         returnRoles.account_type = "Invalid account";
@@ -22,7 +22,7 @@ const auth = async (data: FormType): Promise<User> => {
         const { account_type, user_id, user_name } = data[0];
         returnRoles.account_type = account_type;
         returnRoles.user_id = user_id;
-        returnRoles.user_name = user_name
+        returnRoles.user_name = user_name;
       }
       return returnRoles;
     });

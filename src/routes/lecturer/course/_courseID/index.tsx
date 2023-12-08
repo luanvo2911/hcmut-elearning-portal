@@ -1,4 +1,4 @@
-import StudentService from "@services/StudentService";
+import LecturerService from "@services/LecturerService";
 import { LectureData, QuestionData } from "@/types/db";
 import React from "react";
 import { Table, Typography, Tag, Spin } from "antd";
@@ -8,11 +8,11 @@ import LectureQuizList from "./quiz";
 const CourseLecture = ({
   coursePath,
   setItems,
-  studentID
+  lecturerID
 }: {
   coursePath: string;
   setItems: React.Dispatch<React.SetStateAction<string>>;
-  studentID: string | undefined;
+  lecturerID: string | undefined;
 }) => {
   const [lectureList, setLectureList] = React.useState<
     LectureData[] | undefined
@@ -23,12 +23,12 @@ const CourseLecture = ({
   React.useEffect(() => {
     const courseID = coursePath.split("/")[0];
 
-    StudentService.getLectureList(courseID).then(
+    LecturerService.getLectureList(courseID).then(
       ({ data }: { data: LectureData[] }) => {
         setLectureList(data);
       }
     );
-    StudentService.getQuestionList(courseID).then(
+    LecturerService.getQuestionList(courseID).then(
       ({ data }: { data: QuestionData[] }) => {
         setQuestionList(data);
       }
@@ -41,7 +41,7 @@ const CourseLecture = ({
     return docOrQuiz == "Documents" ? (
       <LectureDocument lectureID={coursePath.split("/")[1]} />
     ) : (
-      <LectureQuizList lecturePath={coursePath.replace(`${coursePath.split("/")[0]}/`, "")} setItems = {setItems} studentID = {studentID}/>
+      <LectureQuizList lecturePath={coursePath.replace(`${coursePath.split("/")[0]}/`, "")} setItems = {setItems} lecturerID = {lecturerID}/>
     );
   }
 

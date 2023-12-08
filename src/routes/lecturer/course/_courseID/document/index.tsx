@@ -1,6 +1,6 @@
 import React from "react";
 import { DocumentData } from "@/types/db";
-import StudentService from "@/services/StudentService";
+import LecturerService from "@/services/LecturerService";
 import { Table, Typography, Spin } from "antd";
 
 const LectureDocument = ({ lectureID }: { lectureID: string }) => {
@@ -9,7 +9,7 @@ const LectureDocument = ({ lectureID }: { lectureID: string }) => {
     DocumentData[] | undefined
   >(undefined);
   React.useEffect(() => {
-    StudentService.getDocumentList(lectureID).then(
+    LecturerService.getDocumentList(lectureID).then(
       ({ data }: { data: DocumentData[] }) => {
         setDocumentList(data);
       }

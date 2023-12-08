@@ -12,7 +12,7 @@ import {
   QuestionData,
   DocumentData,
   QuizData,
-  QuizQuestionData
+  QuizQuestionData,
 } from "@/types/db";
 
 const getAdminList = () => {
@@ -123,9 +123,9 @@ const getQuizQuestionList = (quizID: string) => {
       FULL JOIN correct_answer sa ON sa.quiz_question_id = qq.quiz_question_id) t 
       FULL JOIN multiple_choice_answer mca ON mca.quiz_question_id = t.quiz_question_id) t 
     WHERE t.quiz_id = '${quizID}'
-    `
+    `,
   });
-}; 
+};
 
 const getAttemptDetail = (quizID: string) => {
   return instance.post<AttemptData[]>("/", {
@@ -138,9 +138,9 @@ const getAttemptDetail = (quizID: string) => {
         FULL JOIN attempt_detail ad ON ad.attempt_detail_id = t.attempt_detail_id) t
       WHERE t.quiz_id = '${quizID}') t
     JOIN user_information user_info ON t.student_id = user_info.user_id
-    `
-  })
-}
+    `,
+  });
+};
 
 const AdminService = {
   getAdminList,
@@ -155,7 +155,7 @@ const AdminService = {
   getRegisteredStudentInCourse,
   getQuizList,
   getQuizQuestionList,
-  getAttemptDetail
+  getAttemptDetail,
 };
 
 export default AdminService;
