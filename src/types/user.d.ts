@@ -6,5 +6,6 @@ export interface FormType{
 
 export interface User {
   user_id: string | undefined,
+  user_name: string | undefined,
   account_type: string | undefined
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavBar } from "@/components";
-import { Layout, Breadcrumb } from "antd";
+import { Layout, Breadcrumb, Typography } from "antd";
 import Admin from "./admin";
 import Lecturer from "./lecturer";
 import Student from "./student";
@@ -32,6 +32,7 @@ const AdminRoute = ({user}: {user: User | undefined}) => {
     >
       <NavBar setItems={setItems} currentUser={user}  />
       <Layout style={{ padding: "0 24px 24px" }}>
+        <Typography.Title>Welcome, {user?.user_name}</Typography.Title>
         <Breadcrumb
           style={{ margin: "16px 0" }}
           items={breadcrumbTitle(items)}

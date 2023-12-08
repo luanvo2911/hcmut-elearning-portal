@@ -2,6 +2,7 @@ import instance from "@utils/http-common";
 
 import {
   AdminData,
+  AttemptData,
   LecturerData,
   LectureData,
   StudentData,
@@ -10,6 +11,8 @@ import {
   DepartmentData,
   QuestionData,
   DocumentData,
+  QuizData,
+  QuizQuestionData
 } from "@/types/db";
 
 const getAdminList = () => {
@@ -44,8 +47,7 @@ const getStudentList = () => {
 
 const getTicketList = () => {
   return instance.post<TicketData[]>("/", {
-    query: 
-    `SELECT t.*, user_info.user_name as admin_handler FROM
+    query: `SELECT t.*, user_info.user_name as admin_handler FROM
       (SELECT tic.*, user_info.user_name as author FROM ticket tic 
       JOIN user_information user_info ON tic.user_id = user_info.user_id) t
     JOIN user_information user_info ON t.admin_id = user_info.user_id`,
@@ -99,6 +101,47 @@ const getRegisteredStudentInCourse = (courseID: string) => {
   });
 };
 
+const getQuizList = (lectureID: string) => {
+  return instance.post<QuizData[]>("/", {
+    query: `
+      SELECT t.quiz_id, t.title, t.description, COUNT(qq.quiz_question_id) AS num_of_questions
+      FROM (SELECT q.quiz_id , q.title, q.description
+            FROM quiz q
+            WHERE q.lecture_id = '${lectureID}') t
+      LEFT JOIN quiz_question AS qq ON t.quiz_id = qq.quiz_id
+      GROUP BY t.quiz_id, t.title, t.description
+    `,
+  });
+};
+const getQuizQuestionList = (quizID: string) => {
+  return instance.post<QuizQuestionData[]>("/", {
+    query: `
+    SELECT * FROM
+      (SELECT t.*, mca.multiple_choice_answer, mca.is_correct FROM
+      (SELECT qq.quiz_id, qq.quiz_question_id, qq.title, qq.description, qq.max_point, qq.quiz_question_type, sa.correct_answer AS short_answer
+      FROM quiz_question qq 
+      FULL JOIN correct_answer sa ON sa.quiz_question_id = qq.quiz_question_id) t 
+      FULL JOIN multiple_choice_answer mca ON mca.quiz_question_id = t.quiz_question_id) t 
+    WHERE t.quiz_id = '${quizID}'
+    `
+  });
+}; 
+
+const getAttemptDetail = (quizID: string) => {
+  return instance.post<AttemptData[]>("/", {
+    query: `
+    SELECT t.*, user_info.user_name FROM
+      (SELECT * FROM 
+        (SELECT t.*, ad.created_at FROM
+          (SELECT a.attempt_detail_id, a.student_id, a.quiz_id, at.attempt_answer_id, at.answer_content FROM attempt a
+          FULL JOIN attempt_answer at ON a.attempt_detail_id = at.attempt_detail_id) t
+        FULL JOIN attempt_detail ad ON ad.attempt_detail_id = t.attempt_detail_id) t
+      WHERE t.quiz_id = '${quizID}') t
+    JOIN user_information user_info ON t.student_id = user_info.user_id
+    `
+  })
+}
+
 const AdminService = {
   getAdminList,
   getLecturerList,
@@ -110,6 +153,9 @@ const AdminService = {
   getQuestionList,
   getDocumentList,
   getRegisteredStudentInCourse,
+  getQuizList,
+  getQuizQuestionList,
+  getAttemptDetail
 };
 
 export default AdminService;

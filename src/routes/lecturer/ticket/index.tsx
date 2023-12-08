@@ -1,14 +1,14 @@
 import React from "react";
-import StudentService from "@services/StudentService";
+import LecturerService from "@services/LecturerService";
 import { Table, Spin, Typography } from "antd";
 import { TicketData } from "@/types/db";
 
-const Ticket = ({ studentID }: { studentID: string | undefined }) => {
+const Ticket = ({ lecturerID }: { lecturerID: string | undefined }) => {
   const [ticketList, setTicketList] = React.useState<TicketData[] | undefined>(
     undefined
   );
   React.useEffect(() => {
-    StudentService.getTicketList(studentID).then(
+    LecturerService.getTicketList(lecturerID).then(
       ({ data }: { data: TicketData[] }) => {
         data.forEach((d) => {
           const { created_at, process_at } = d;
@@ -18,7 +18,7 @@ const Ticket = ({ studentID }: { studentID: string | undefined }) => {
         setTicketList(data);
       }
     );
-  }, [studentID]);
+  }, [lecturerID]);
 
   const columns = [
     {
@@ -65,7 +65,7 @@ const Ticket = ({ studentID }: { studentID: string | undefined }) => {
 
   return (
     <div>
-      <Typography.Title level={2} >Your current tickets</Typography.Title>
+      <Typography.Title level={2} >Your current ticket</Typography.Title>
       {ticketList ? (
         <Table
           dataSource={ticketList}

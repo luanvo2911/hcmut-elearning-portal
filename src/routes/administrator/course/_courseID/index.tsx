@@ -5,7 +5,7 @@ import { LectureData, QuestionData, StudentData } from "@/types/db";
 import React from "react";
 import { Table, Typography, Tag, Spin } from "antd";
 import LectureDocument from "./document";
-import LectureQuiz from "./quiz";
+import LectureQuizList from "./quiz";
 
 const CourseLecture = ({
   coursePath,
@@ -46,10 +46,10 @@ const CourseLecture = ({
   if (coursePath.split("/").length > 1) {
     const insidePath = coursePath.split("/")[1];
     const docOrQuiz = insidePath.split(" ")[1];
-    return docOrQuiz == "Document" ? (
+    return docOrQuiz == "Documents" ? (
       <LectureDocument lectureID={coursePath.split("/")[1]} />
     ) : (
-      <LectureQuiz lectureID={coursePath.split("/")[1]} />
+      <LectureQuizList lecturePath={coursePath.replace(`${coursePath.split("/")[0]}/`, "")} setItems = {setItems}/>
     );
   }
 
@@ -70,7 +70,7 @@ const CourseLecture = ({
       key: "lecture_content",
     },
     {
-      title: "Document",
+      title: "Documents",
       dataIndex: "lecture_id",
       key: "lecture_id",
       render: (d: string) => {
@@ -78,17 +78,17 @@ const CourseLecture = ({
           <a
             onClick={() => {
               setItems((prevState) => {
-                return prevState + `/${d} Document`;
+                return prevState + `/${d} Documents`;
               });
             }}
           >
-            Document of {d}
+            Documents of {d}
           </a>
         );
       },
     },
     {
-      title: "Quiz",
+      title: "Quizzes",
       dataIndex: "lecture_id",
       key: "lecture_id",
       render: (d: string) => {
@@ -96,11 +96,11 @@ const CourseLecture = ({
           <a
             onClick={() => {
               setItems((prevState) => {
-                return prevState + `/${d} Quiz`;
+                return prevState + `/${d} Quizzes`;
               });
             }}
           >
-            Quiz of {d}
+            Quizzes of {d}
           </a>
         );
       },

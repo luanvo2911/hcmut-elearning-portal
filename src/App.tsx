@@ -32,7 +32,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/lecturer" element={<LecturerRoute user={user} />} />
+        <Route
+          path="/lecturer"
+          element={
+            <ProtectedRoute user={user}>
+              <LecturerRoute user={user} />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<ErrorRoute />} />
       </Routes>
     </BrowserRouter>

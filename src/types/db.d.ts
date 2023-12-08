@@ -99,3 +99,29 @@ export interface TicketData {
   author: string;
   admin_handler: string;
 }
+
+export interface QuizData {
+  quiz_id: string;
+  title: string;
+  description: string;
+  num_of_questions: number;
+}
+
+export interface QuizQuestionData {
+  quiz_question_id: string;
+  title: string;
+  description: string;
+  max_point: string;
+  quiz_question_type: string;
+  short_answer: string | null;
+  multiple_choice_answer: string | null;
+  is_correct: boolean | null;
+}
+
+export interface AttemptData {
+  attempt_detail_id: string;
+  user_name: string;
+  quiz_id: string;
+  answer_content: string | null ;
+  created_at: Date;
+}

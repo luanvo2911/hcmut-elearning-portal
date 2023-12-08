@@ -41,7 +41,7 @@ const LectureDocument = ({ lectureID }: { lectureID: string }) => {
 
   return (
     <div>
-      <Typography.Title level={1}>
+      <Typography.Title level={2}>
         Document of lecture {lectureID}
       </Typography.Title>
       {documentList ? (

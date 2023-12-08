@@ -1,6 +1,6 @@
 import React from "react";
 import StudentService from "@services/StudentService";
-import { Table, Spin } from "antd";
+import { Table, Spin, Typography } from "antd";
 import { CourseData } from "@/types/db";
 import CourseLecture from "./_courseID";
 
@@ -72,15 +72,18 @@ const Course = ({
       key: "lecturer_id",
     },
     {
-      title: "Registered",
+      title: "",
       dataIndex: "registered",
       key: "registered",
-      render: (d: boolean) => <div>{d ? "True" : "False"}</div>,
+      render: (d: boolean) => <div>{d ? "In-class" : <a onClick = {(e)=>{
+        e.preventDefault() // Handle confirm box
+      }}>Register</a>}</div>,
     },
   ];
 
   return (
     <div>
+      <Typography.Title level={2}>All available courses</Typography.Title>
       {courseList ? (
         <Table
           dataSource={courseList}
