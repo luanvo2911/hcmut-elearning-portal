@@ -1,10 +1,6 @@
 import axios from "axios";
-// import dotenv from "dotenv";
 
-// dotenv.config();
-
-const BASE_URL: string | undefined =
-  "https://hcmut-open-online-learning-portal-services.vercel.app/api/v1/query-selector";
+const BASE_URL: string | undefined = import.meta.env.VITE_API_BASE_URL
 
 
 const instance = axios.create({
