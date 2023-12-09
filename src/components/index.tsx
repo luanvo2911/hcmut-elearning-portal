@@ -1,3 +1,4 @@
 import NavBar from "./NavBar";
+import ModalForm from "./ModalForm";
 
-export { NavBar };
+export { NavBar, ModalForm };

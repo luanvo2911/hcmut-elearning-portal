@@ -76,9 +76,33 @@ const Course = ({
       title: "",
       dataIndex: "registered",
       key: "registered",
-      render: (d: boolean) => <div>{d ? "In-class" : <a onClick = {(e)=>{
-        e.preventDefault() // Handle confirm box
-      }}>Register</a>}</div>,
+      render: (d: boolean, record: CourseData) => (
+        <div>
+          {d ? (
+            "In-class"
+          ) : (
+            <a
+              onClick={(e) => {
+                e.preventDefault(); // Handle confirm box
+                const payload = {
+                  student_id: studentID,
+                  course_id: record.course_id,
+                  date_of_enrollment: new Date(),
+                };
+                StudentService.postStudentTakesCourse(payload)
+                  .then(() => {
+                    console.log("Register successful!");
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              Register
+            </a>
+          )}
+        </div>
+      ),
     },
   ];
 

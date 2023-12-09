@@ -1,6 +1,7 @@
 import React from "react";
 import AdminService from "@services/AdminService";
-import { Table, Spin } from "antd";
+import { Table, Spin, Button, Popconfirm } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { DepartmentData } from "@/types/db";
 
 const Department = () => {
@@ -40,6 +41,34 @@ const Department = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
+    },
+    {
+      title: "",
+      dataIndex: "",
+      key: "",
+      render: (record: DepartmentData) => (
+        <Popconfirm
+          title="Delete the course"
+          description="Are you sure to delete this course?"
+          onConfirm={() => {
+            console.log(record.department_id);
+            AdminService.deleteDepartment(record.department_id)
+              .then(() => {
+                console.log("delete successfully !");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+          // onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button danger>
+            <DeleteOutlined />
+          </Button>
+        </Popconfirm>
+      ),
     },
   ];
 

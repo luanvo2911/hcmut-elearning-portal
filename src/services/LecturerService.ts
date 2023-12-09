@@ -1,4 +1,4 @@
-import instance from "@/utils/http-common";
+import { instance, instance_create } from "@/utils/http-common";
 import {
   DepartmentData,
   DocumentData,
@@ -9,7 +9,7 @@ import {
   QuestionData,
   QuizData,
   QuizQuestionData,
-  AttemptData
+  AttemptData,
 } from "@/types/db";
 
 const getDepartmentList = () => {
@@ -112,6 +112,27 @@ const getAttemptDetail = (quizID: string) => {
   });
 };
 
+const postTicket = (payload: TicketData) => {
+  const currentDate = new Date();
+  const {ticket_id, ticket_type, user_id, description, admin_id} = payload;
+  const editPayLoad = {
+    ticket_id: ticket_id,
+    ticket_type: ticket_type,
+    created_at: currentDate.toJSON(),
+    process_at: currentDate.setDate(currentDate.getDate() + 7),
+    description: description,
+    status: 'Requesting',
+    user_id: user_id,
+    admin_id: admin_id
+  }
+  console.log(editPayLoad);
+  return instance_create.post<TicketData>("/", editPayLoad, {
+    params: {
+      table: 'ticket'
+    }
+  })
+}
+
 const LecturerService = {
   getCourseList,
   getDepartmentList,
@@ -122,7 +143,8 @@ const LecturerService = {
   getLectureList,
   getQuizList,
   getQuizQuestionList,
-  getAttemptDetail
+  getAttemptDetail,
+  postTicket
 };
 
 export default LecturerService;

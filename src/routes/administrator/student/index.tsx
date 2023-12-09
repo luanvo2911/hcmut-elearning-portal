@@ -1,6 +1,6 @@
 import React from "react";
 import AdminService from "@services/AdminService";
-import { Table, Spin } from "antd";
+import { Table, Tag, Spin } from "antd";
 import { StudentData } from "@/types/db";
 
 const Student = () => {
@@ -63,6 +63,20 @@ const Student = () => {
       title: "Program",
       dataIndex: "student_program",
       key: "student_program",
+    },
+    {
+      title: "Status",
+      dataIndex: "student_status",
+      key: "student_status",
+      render: (text: string) => (
+        <Tag
+          color={
+            text == "Active" ? "green" : text == "Banned" ? "volcano" : "red"
+          }
+        >
+          {text}
+        </Tag>
+      ),
     },
   ];
   return (

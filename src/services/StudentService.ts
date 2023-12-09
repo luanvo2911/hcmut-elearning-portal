@@ -1,4 +1,4 @@
-import instance from "@/utils/http-common";
+import { instance, instance_create } from "@/utils/http-common";
 import {
   DepartmentData,
   TicketData,
@@ -8,7 +8,7 @@ import {
   DocumentData,
   QuizData,
   QuizQuestionData,
-  AttemptData
+  AttemptData,
 } from "@/types/db";
 
 const getDepartmentList = () => {
@@ -110,6 +110,39 @@ const getAttemptDetail = (quizID: string, studentID: string | undefined) => {
   });
 };
 
+const postTicket = (payload: TicketData) => {
+  const currentDate = new Date();
+  const { ticket_id, ticket_type, user_id, description, admin_id } = payload;
+  const editPayLoad = {
+    ticket_id: ticket_id,
+    ticket_type: ticket_type,
+    created_at: currentDate.toJSON(),
+    process_at: currentDate.toJSON(),
+    description: description,
+    status: "Requesting",
+    user_id: user_id,
+    admin_id: admin_id,
+  };
+  console.log(editPayLoad);
+  return instance_create.post<TicketData>("/", editPayLoad, {
+    params: {
+      table: "ticket",
+    },
+  });
+};
+
+const postStudentTakesCourse = (payload: {
+  student_id: string | undefined;
+  course_id: string;
+  date_of_enrollment: Date;
+}) => {
+  return instance_create.post("/", payload, {
+    params: {
+      table: 'student_takes_course'
+    }
+  })
+};
+
 const StudentService = {
   getAttemptDetail,
   getDocumentList,
@@ -119,7 +152,9 @@ const StudentService = {
   getLectureList,
   getQuestionList,
   getQuizList,
-  getQuizQuestionList
+  getQuizQuestionList,
+  postTicket,
+  postStudentTakesCourse,
 };
 
 export default StudentService;

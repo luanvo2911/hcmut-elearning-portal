@@ -117,7 +117,7 @@ const LectureQuiz = ({ quizIDPath, studentID }: { quizIDPath: string, studentID:
       ) : (
         <Spin />
       )}
-      <Typography.Title> Attempts of all registered students </Typography.Title>
+      <Typography.Title> Your attempt details </Typography.Title>
       {attemptList ? (
         <Table dataSource={attemptList} columns={columnsAttempt} />
       ) : (

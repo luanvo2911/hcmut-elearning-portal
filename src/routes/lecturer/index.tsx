@@ -1,7 +1,8 @@
 import React from "react";
-import { NavBar } from "@/components";
+import { NavBar, ModalForm } from "@/components";
 import { User } from "@/types/user";
-import { Layout, Breadcrumb, Typography } from "antd";
+import { Layout, Breadcrumb, Typography, FloatButton } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import Department from "./department";
 import Ticket from "./ticket";
 import Student from "./student";
@@ -11,6 +12,7 @@ const { Content } = Layout;
 
 const LecturerRoute = ({ user }: { user: User | undefined }) => {
   const [items, setItems] = React.useState<string>("Course");
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
   const breadcrumbTitle = (items: string) => {
     const path = items.split("/"); // Split path into array to make breadcrumb
 
@@ -64,6 +66,14 @@ const LecturerRoute = ({ user }: { user: User | undefined }) => {
           ) : (
             <Course setItems={setItems} coursePath={items} lecturerID={user?.user_id} />
           )}
+          <FloatButton
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          />
+          <ModalForm isOpenModal={openModal} setOpenModal = {setOpenModal} type="student" />
         </Content>
       </Layout>
     </Layout>

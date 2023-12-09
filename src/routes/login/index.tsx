@@ -1,11 +1,18 @@
+import React from "react";
 import { Button, Form, Input, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FormType, User } from "@/types/user";
 import auth from "@services/Authentication";
 
-const LoginRoute = ({setUser}: {setUser: React.Dispatch<User | undefined>}) => {
+const LoginRoute = ({
+  setUser,
+}: {
+  setUser: React.Dispatch<User | undefined>;
+}) => {
+  const [loading, setLoading] = React.useState<boolean>(false);
   const navigate = useNavigate();
   const onFinish = (data: FormType) => {
+    setLoading(true);
     // check roles of users
     auth(data).then((returnRoles: User) => {
       if (returnRoles.account_type == "Invalid account") {
@@ -18,7 +25,7 @@ const LoginRoute = ({setUser}: {setUser: React.Dispatch<User | undefined>}) => {
         navigate("/student");
       } else if (returnRoles.account_type == "Lecturer") {
         setUser(returnRoles);
-        navigate("/lecturer")
+        navigate("/lecturer");
       }
     });
   };
@@ -49,10 +56,15 @@ const LoginRoute = ({setUser}: {setUser: React.Dispatch<User | undefined>}) => {
           label={<Typography.Text>Password: </Typography.Text>}
           rules={[{ required: true, message: "Please enter your password!" }]}
         >
-          <Input type="password" placeholder="password" />
+          <Input.Password type="password" />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            disabled={loading}
+          >
             Login
           </Button>
         </Form.Item>

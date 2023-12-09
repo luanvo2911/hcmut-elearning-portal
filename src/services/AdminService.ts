@@ -1,4 +1,4 @@
-import instance from "@utils/http-common";
+import { instance, instance_create, instance_delete } from "@utils/http-common";
 
 import {
   AdminData,
@@ -142,6 +142,42 @@ const getAttemptDetail = (quizID: string) => {
   });
 };
 
+const postDepartment = (payload: DepartmentData) => {
+  return instance_create.post<DepartmentData>("/", payload, {
+    params: {
+      table: "department",
+    },
+  });
+};
+
+const postCourse = (payload: CourseData) => {
+  return instance_create.post<CourseData>(
+    "/",
+    { ...payload, modified_at: new Date().toJSON() },
+    {
+      params: {
+        table: "course",
+      },
+    }
+  );
+};
+
+const deleteDepartment = (department_id: string) => {
+  return instance_delete.delete("/?table=department", {
+    data: {
+      condition: `department_id = '${department_id}'` 
+    }
+  })
+}
+
+const deleteTicket = (ticket_id: string) => {
+  return instance_delete.delete("/?table=ticket", {
+    data: {
+      condition: `ticket_id = '${ticket_id}'` 
+    }
+  })
+}
+
 const AdminService = {
   getAdminList,
   getLecturerList,
@@ -156,6 +192,10 @@ const AdminService = {
   getQuizList,
   getQuizQuestionList,
   getAttemptDetail,
+  postDepartment,
+  postCourse,
+  deleteDepartment,
+  deleteTicket
 };
 
 export default AdminService;

@@ -1,4 +1,4 @@
-import instance from "@utils/http-common";
+import { instance } from "@utils/http-common";
 import { FormType, User } from "@/types/user";
 
 const auth = async (data: FormType): Promise<User> => {

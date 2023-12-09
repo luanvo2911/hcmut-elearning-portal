@@ -1,6 +1,7 @@
 import React from "react";
 import AdminService from "@services/AdminService";
-import { Table, Spin } from "antd";
+import { Table, Spin, Popconfirm, Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { TicketData } from "@/types/db";
 
 const Ticket = () => {
@@ -58,6 +59,34 @@ const Ticket = () => {
       title: "Admin",
       dataIndex: "admin_handler",
       key: "admin_handler",
+    },
+    {
+      title: "",
+      dataIndex: "",
+      key: "",
+      render: (record: TicketData) => (
+        <Popconfirm
+          title="Delete the course"
+          description="Are you sure to delete this course?"
+          onConfirm={() => {
+            console.log(record.ticket_id);
+            AdminService.deleteTicket(record.ticket_id)
+              .then(() => {
+                console.log("delete successfully !");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+          // onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button danger>
+            <DeleteOutlined />
+          </Button>
+        </Popconfirm>
+      ),
     },
   ];
 
