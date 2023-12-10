@@ -1,6 +1,6 @@
 import React from "react";
 import { NavBar, ModalForm } from "@/components";
-import { Layout, Breadcrumb, Typography, FloatButton } from "antd";
+import { Layout, Breadcrumb, Typography, FloatButton, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Admin from "./admin";
 import Lecturer from "./lecturer";
@@ -13,8 +13,16 @@ import { User } from "@/types/user";
 const { Content } = Layout;
 
 const AdminRoute = ({ user }: { user: User | undefined }) => {
+  const [api, contextHolder] = notification.useNotification();
   const [items, setItems] = React.useState<string>("Administrator");
   const [openModal, setOpenModal] = React.useState<boolean>(false);
+  React.useEffect(()=>{
+    api.info({
+      message: "Login successfully!!",
+      description: `Welcome to administration dashboard!!`,
+      duration: 3
+    })
+  }, [api])
   const breadcrumbTitle = (items: string) => {
     const path = items.split("/"); // Split path into array to make breadcrumb
 
@@ -44,6 +52,7 @@ const AdminRoute = ({ user }: { user: User | undefined }) => {
         width: "100vw",
       }}
     >
+      {contextHolder}
       <NavBar setItems={setItems} currentUser={user} />
       <Layout style={{ padding: "0 24px 24px" }}>
         <Typography.Title>Welcome, {user?.user_name}</Typography.Title>
@@ -79,7 +88,7 @@ const AdminRoute = ({ user }: { user: User | undefined }) => {
               setOpenModal(true);
             }}
           />
-          <ModalForm isOpenModal={openModal} setOpenModal = {setOpenModal} type="admin"/>
+          <ModalForm isOpenModal={openModal} setOpenModal = {setOpenModal} type="admin" userID = {undefined}/>
         </Content>
       </Layout>
     </Layout>

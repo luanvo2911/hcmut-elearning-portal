@@ -73,7 +73,7 @@ const LecturerRoute = ({ user }: { user: User | undefined }) => {
               setOpenModal(true);
             }}
           />
-          <ModalForm isOpenModal={openModal} setOpenModal = {setOpenModal} type="student" />
+          <ModalForm isOpenModal={openModal} setOpenModal = {setOpenModal} type="student" userID = {user?.user_id} />
         </Content>
       </Layout>
     </Layout>

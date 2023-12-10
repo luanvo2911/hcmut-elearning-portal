@@ -48,8 +48,8 @@ const Department = () => {
       key: "",
       render: (record: DepartmentData) => (
         <Popconfirm
-          title="Delete the course"
-          description="Are you sure to delete this course?"
+          title="Delete the ticket"
+          description="Are you sure to delete this ticket?"
           onConfirm={() => {
             console.log(record.department_id);
             AdminService.deleteDepartment(record.department_id)

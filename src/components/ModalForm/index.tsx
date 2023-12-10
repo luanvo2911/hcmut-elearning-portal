@@ -47,25 +47,25 @@ const DepartmentForm = () => {
   return (
     <div>
       <Form.Item label="Department ID" name="department_id">
-        <input />
+        <Input />
       </Form.Item>
       <Form.Item label="Email" name="email">
-        <input />
+        <Input />
       </Form.Item>
       <Form.Item label="Address" name="address">
-        <input />
+        <Input />
       </Form.Item>
       <Form.Item label="Description" name="description">
-        <input />
+        <Input />
       </Form.Item>
       <Form.Item label="Department Name" name="department_name">
-        <input />
+        <Input />
       </Form.Item>
     </div>
   );
 };
 
-const TicketForm = () => {
+const TicketForm = ({ userID }: { userID: string | undefined }) => {
   return (
     <div>
       <Form.Item label="Ticket ID" name="ticket_id">
@@ -78,7 +78,7 @@ const TicketForm = () => {
         <Input />
       </Form.Item>
       <Form.Item label="Your ID" name="user_id">
-        <Input />
+        <Input disabled placeholder={userID} />
       </Form.Item>
       <Form.Item label="Admin ID" name="admin_id">
         <Input />
@@ -91,16 +91,20 @@ const ModalForm = ({
   isOpenModal,
   setOpenModal,
   type,
+  userID,
 }: {
   isOpenModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   type: string;
+  userID: string | undefined;
 }) => {
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [table, setTable] = React.useState<string | undefined>(undefined);
   const handleCancel = () => {
     setOpenModal(false);
   };
   const handleSubmit = (value: any) => {
+    setLoading(true);
     if (table == "department") {
       AdminService.postDepartment(value)
         .then(() => {
@@ -118,9 +122,9 @@ const ModalForm = ({
           console.log(err);
         });
     } else if (table == "ticket") {
-      StudentService.postTicket(value)
+      StudentService.postTicket({ ...value, user_id: userID })
         .then(() => {
-          console.log('POST SUCCESSFULLY');
+          console.log("POST SUCCESSFULLY");
           setOpenModal(false);
         })
         .catch((err) => {
@@ -168,10 +172,15 @@ const ModalForm = ({
         ) : table == "department" ? (
           <DepartmentForm />
         ) : (
-          <TicketForm />
+          <TicketForm userID={userID} />
         )}
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            disabled={loading}
+          >
             Submit
           </Button>
         </Form.Item>

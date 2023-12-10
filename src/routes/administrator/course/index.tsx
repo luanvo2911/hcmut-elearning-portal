@@ -1,6 +1,7 @@
 import React from "react";
 import AdminService from "@services/AdminService";
-import { Table, Spin } from "antd";
+import { Table, Spin, Button, Typography } from "antd";
+import { UndoOutlined } from "@ant-design/icons";
 import { CourseData } from "@/types/db";
 import CourseLecture from "./_courseID";
 
@@ -22,7 +23,7 @@ const Course = ({
       });
       setCourseList(data);
     });
-  }, []);
+  }, [courseList]);
   if (coursePath.split("/").length > 1) {
     return (
       <CourseLecture
@@ -73,6 +74,23 @@ const Course = ({
 
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography.Title level={2}>All available courses</Typography.Title>
+        <Button
+          type="primary"
+          onClick={() => {
+            setCourseList(undefined);
+          }}
+        >
+          <UndoOutlined />
+        </Button>
+      </div>
       {courseList ? (
         <Table
           dataSource={courseList}

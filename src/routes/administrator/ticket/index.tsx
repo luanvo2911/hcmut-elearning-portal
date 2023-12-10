@@ -1,7 +1,7 @@
 import React from "react";
 import AdminService from "@services/AdminService";
-import { Table, Spin, Popconfirm, Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Table, Spin, Popconfirm, Button, Typography } from "antd";
+import { DeleteOutlined, UndoOutlined } from "@ant-design/icons";
 import { TicketData } from "@/types/db";
 
 const Ticket = () => {
@@ -17,7 +17,7 @@ const Ticket = () => {
       });
       setTicketList(data);
     });
-  }, []);
+  }, [ticketList]);
 
   const columns = [
     {
@@ -66,8 +66,8 @@ const Ticket = () => {
       key: "",
       render: (record: TicketData) => (
         <Popconfirm
-          title="Delete the course"
-          description="Are you sure to delete this course?"
+          title="Delete the ticket"
+          description="Are you sure to delete this ticket?"
           onConfirm={() => {
             console.log(record.ticket_id);
             AdminService.deleteTicket(record.ticket_id)
@@ -92,6 +92,23 @@ const Ticket = () => {
 
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography.Title level={2}>All current tickets</Typography.Title>
+        <Button
+          type="primary"
+          onClick={() => {
+            setTicketList(undefined);
+          }}
+        >
+          <UndoOutlined />
+        </Button>
+      </div>
       {ticketList ? (
         <Table
           dataSource={ticketList}

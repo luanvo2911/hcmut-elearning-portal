@@ -1,6 +1,7 @@
 import React from "react";
 import LecturerService from "@services/LecturerService";
-import { Table, Spin, Typography } from "antd";
+import { Table, Spin, Typography, Button } from "antd";
+import { UndoOutlined } from "@ant-design/icons";
 import { TicketData } from "@/types/db";
 
 const Ticket = ({ lecturerID }: { lecturerID: string | undefined }) => {
@@ -18,7 +19,7 @@ const Ticket = ({ lecturerID }: { lecturerID: string | undefined }) => {
         setTicketList(data);
       }
     );
-  }, [lecturerID]);
+  }, [lecturerID, ticketList]);
 
   const columns = [
     {
@@ -60,7 +61,23 @@ const Ticket = ({ lecturerID }: { lecturerID: string | undefined }) => {
 
   return (
     <div>
-      <Typography.Title level={2} >Your current tickets</Typography.Title>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography.Title level={2}>Your current tickets</Typography.Title>
+        <Button
+          type="primary"
+          onClick={() => {
+            setTicketList(undefined);
+          }}
+        >
+          <UndoOutlined />
+        </Button>
+      </div>
       {ticketList ? (
         <Table
           dataSource={ticketList}
