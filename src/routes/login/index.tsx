@@ -16,7 +16,13 @@ const LoginRoute = ({
     // check roles of users
     auth(data).then((returnRoles: User) => {
       if (returnRoles.account_type == "Invalid account") {
-        1 == 1;
+        alert('Invalid account, log in as free admin to view data')
+        setUser({
+          user_id: '0',
+          user_name: 'admin000',
+          account_type: 'Administrator'
+        });
+        navigate("/administrator");
       } else if (returnRoles.account_type == "Administrator") {
         setUser(returnRoles);
         navigate("/administrator");
